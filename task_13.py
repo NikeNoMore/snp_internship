@@ -46,22 +46,36 @@ def cached(*c_args, **c_kwargs):
                 return cache[hash_str]
             else:
                 res = func(*args, **kwargs)
+                cache[hash_str] = res
+                cached_time[hash_str] = datetime.datetime.now()
                 if not isinstance(max_size, type(None)):
-                    if len(cache) < max_size:
-                        cache[hash_str] = res
-                        cached_time[hash_str] = datetime.datetime.now()
+                    if len(cache) > max_size:
+                        oldest_h = "#"
+                        oldest_t = datetime.datetime.now()
+                        for hash, t in cached_time.items():
+                            if oldest_h == "#":
+                                oldest_h = hash
+                                oldest_t = t
+                            elif t < oldest_t:
+                                oldest_h = hash
+                                oldest_t = t
+                        del cached_time[oldest_h]
+                        del cache[oldest_h]
                 return res
         return caching
     return decorator
 
 
-@cached([5],)
+@cached(3,10)
 def slow_function(x):
     print(f"Вычисляю для {x}...")
     return x ** 2
 
 
 print(slow_function(2))
+print(slow_function(3))
+print(slow_function(4))
+print(slow_function(5))
 print(slow_function(2))
 time.sleep(15)
 print(slow_function(2))
