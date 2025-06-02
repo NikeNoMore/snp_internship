@@ -8,7 +8,7 @@ class JellyBean:
         return self.name
 
     def get_calories(self):
-        return self.cals
+        return self.calories
 
     def get_flavor(self):
         return self.flavor
@@ -23,10 +23,16 @@ class JellyBean:
         self.flavor = flavor
 
     def is_healthy(self):
-        return self.calories < 200
+        if type(self.calories) == int:
+            return self.calories < 200
+        else:
+            return True
 
     def is_delicious(self):
-        return self.flavor != "black licorice"
+        if type(self.flavor) == str:
+            return self.flavor != "black licorice"
+        else:
+            return True
 
 
 pink_jb = JellyBean("Pink jelly bean", 25, "strawberry")

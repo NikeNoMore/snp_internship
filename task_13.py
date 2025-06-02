@@ -37,14 +37,16 @@ def cached(*c_args, **c_kwargs):
                 hash_str += kw + str(value)
             if hash_str in cache:
                 return cache[hash_str]
-            elif not isinstance(max_size, type(None)):
-                if len(cache) < max_size:
-                    res = func(*args, **kwargs)
-                    cache[hash_str] = res
-                    cached_time[hash_str] = datetime.datetime.now()
             else:
-                res = func(*args, **kwargs)
-            return res
+                res = 0
+                if not isinstance(max_size, type(None)):
+                    if len(cache) < max_size:
+                        res = func(*args, **kwargs)
+                        cache[hash_str] = res
+                        cached_time[hash_str] = datetime.datetime.now()
+                else:
+                    res = func(*args, **kwargs)
+                return res
         return caching
     return decorator
 
