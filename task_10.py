@@ -15,7 +15,11 @@ def count_words(input):
                 res[temp_str] += 1
             else:
                 res[temp_str] = 1
-            temp_str         = ""
+            temp_str = ""
+    if temp_str in res:
+        res[temp_str] += 1
+    else:
+        res[temp_str] = 1
     return res
 
 

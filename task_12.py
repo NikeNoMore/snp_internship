@@ -1,8 +1,8 @@
 class JellyBean:
     def __init__(self, name="Nothing", calories=0, flavor="bland"):
         self.name = name
-        self.cals = calories
-        self.flav = flavor
+        self.calories = calories
+        self.flavor = flavor
 
     def get_name(self):
         return self.name
@@ -11,22 +11,22 @@ class JellyBean:
         return self.cals
 
     def get_flavor(self):
-        return self.flav
+        return self.flavor
 
     def set_name(self, name):
         self.name = name
 
     def set_calories(self, calories):
-        self.cals = calories
+        self.calories = calories
 
     def set_flavor(self, flavor):
-        self.flav = flavor
+        self.flavor = flavor
 
     def is_healthy(self):
-        return self.cals < 200
+        return self.calories < 200
 
     def is_delicious(self):
-        return self.flav != "black licorice"
+        return self.flavor != "black licorice"
 
 
 pink_jb = JellyBean("Pink jelly bean", 25, "strawberry")

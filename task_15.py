@@ -18,8 +18,12 @@ class BlockIter:
         else:
             raise StopIteration
         encrypt_block = ""
-        for i in range(self.length):
-            encrypt_block += block[self.order[i]]
+        if not self.decrypt:
+            for i in range(self.length):
+                encrypt_block += block[self.order[i]]
+        else:
+            for i in range(self.length):
+                encrypt_block += block[self.order.index(i)]
         if self.decrypt and (self.current + 1) * self.length == len(self.text):
             encrypt_block = encrypt_block.strip()
         self.current += 1
@@ -47,6 +51,7 @@ class BlockTranspositionCipher:
         return BlockIter(self.text, len(self.order), self.order, self.decrypt)
 
 
+
 text = "HELLOWORLD"
 # BlockTranspositionCipher(text, "бва")
 # BlockTranspositionCipher(text, "aba")
@@ -66,5 +71,13 @@ for i, decrypted_block in enumerate(decipher, 1):
     print(f"Блок {i}: '{decrypted_block}'")
 
 decipher = BlockTranspositionCipher(encrypted, key, decrypt=True)
+decrypted = ''.join(decipher)
+print(f"\nПолный расшифрованный текст: '{decrypted}'")
+
+cipher = BlockTranspositionCipher('CODE WITH PYTHON!', 'dacb')
+encrypted = ''.join(cipher)
+print(f"\nПолный зашифрованный текст: '{encrypted}'")
+
+decipher = BlockTranspositionCipher('ECDOT IWYHP NTOH !  ', 'dacb', decrypt=True)
 decrypted = ''.join(decipher)
 print(f"\nПолный расшифрованный текст: '{decrypted}'")
