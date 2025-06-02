@@ -14,11 +14,11 @@ def cached(*c_args, **c_kwargs):
         elif key == "seconds" and type(arg) is int:
             seconds = arg
     if type(c_args[0]) == list:
-        for i in range(len(c_args[0])):
-            if i == 0 and type(c_args[0][0]) is int:
-                max_size = c_args[0][0]
-            if i == 1 and type(c_args[0][1]) is int:
-                seconds = c_args[0][1]
+        if len(c_args) == 2:
+            max_size = c_args[0][0]
+            seconds = c_args[0][1]
+        elif len(c_args) == 1:
+            max_size = c_args[0][0]
     else:
         for i in range(len(c_args)):
             if i == 0 and type(c_args[0]) is int:
