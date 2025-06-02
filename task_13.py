@@ -13,11 +13,18 @@ def cached(*c_args, **c_kwargs):
             max_size = arg
         elif key == "seconds" and type(arg) is int:
             seconds = arg
-    for i in range(len(c_args)):
-        if i == 0 and type(c_args[0]) is int:
-            max_size = c_args[0]
-        if i == 1 and type(c_args[1]) is int:
-            seconds = c_args[1]
+    if type(c_args[0]) == list:
+        for i in range(len(c_args[0])):
+            if i == 0 and type(c_args[0][0]) is int:
+                max_size = c_args[0][0]
+            if i == 1 and type(c_args[0][1]) is int:
+                seconds = c_args[0][1]
+    else:
+        for i in range(len(c_args)):
+            if i == 0 and type(c_args[0]) is int:
+                max_size = c_args[0]
+            if i == 1 and type(c_args[1]) is int:
+                seconds = c_args[1]
 
     def decorator(func):
         def caching(*args, **kwargs):
@@ -38,14 +45,11 @@ def cached(*c_args, **c_kwargs):
             if hash_str in cache:
                 return cache[hash_str]
             else:
-                res = 0
+                res = func(*args, **kwargs)
                 if not isinstance(max_size, type(None)):
                     if len(cache) < max_size:
-                        res = func(*args, **kwargs)
                         cache[hash_str] = res
                         cached_time[hash_str] = datetime.datetime.now()
-                else:
-                    res = func(*args, **kwargs)
                 return res
         return caching
     return decorator
