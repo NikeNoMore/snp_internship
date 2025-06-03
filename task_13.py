@@ -13,18 +13,11 @@ def cached(*c_args, **c_kwargs):
             max_size = arg
         elif key == "seconds" and type(arg) is int:
             seconds = arg
-    if type(c_args[0]) == list:
-        if len(c_args) == 2:
-            max_size = c_args[0][0]
-            seconds = c_args[0][1]
-        elif len(c_args) == 1:
-            max_size = c_args[0][0]
-    else:
-        for i in range(len(c_args)):
-            if i == 0 and type(c_args[0]) is int:
-                max_size = c_args[0]
-            if i == 1 and type(c_args[1]) is int:
-                seconds = c_args[1]
+    for i in range(len(c_args)):
+        if i == 0 and type(c_args[0]) is int:
+            max_size = c_args[0]
+        if i == 1 and type(c_args[1]) is int:
+            seconds = c_args[1]
 
     def decorator(func):
         def caching(*args, **kwargs):
@@ -66,7 +59,7 @@ def cached(*c_args, **c_kwargs):
     return decorator
 
 
-@cached(3,10)
+@cached(3,)
 def slow_function(x):
     print(f"Вычисляю для {x}...")
     return x ** 2
@@ -75,6 +68,7 @@ def slow_function(x):
 print(slow_function(2))
 print(slow_function(3))
 print(slow_function(4))
+print(slow_function(2))
 print(slow_function(5))
 print(slow_function(2))
 time.sleep(15)
