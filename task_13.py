@@ -31,6 +31,7 @@ def cached(*c_args, **c_kwargs):
                     del cache[key]
                     del cached_time[key]
             hash_str = ""
+
             for arg in args:
                 hash_str += str(arg)
             for kw, value in kwargs.items():
